@@ -1,10 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App'
-import './index.css'
+import { AppRouter } from './AppRouter'
+
+import '@mantine/core/styles.css'
+import '@mantine/notifications/styles.css'
+import '@mantine/dropzone/styles.css'
+import '@mantine/dates/styles.css'
+import { RootProvider } from './providers'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <RootProvider>
+      <AppRouter />
+    </RootProvider>
   </React.StrictMode>
 )

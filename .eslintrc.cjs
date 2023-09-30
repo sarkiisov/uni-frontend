@@ -6,7 +6,7 @@ module.exports = {
     'airbnb-typescript',
     'plugin:import/typescript'
   ],
-  ignorePatterns: ['.eslintrc.cjs', 'vite.config.ts'],
+  ignorePatterns: ['.eslintrc.cjs', 'vite.config.ts', 'postcss.config.cjs'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: './tsconfig.json'
@@ -24,7 +24,8 @@ module.exports = {
     'operator-linebreak': ['error', 'after', {
       'overrides': { '?': 'ignore', ':': 'ignore' }
     }],
-    'react/react-in-jsx-scope': 'off',
+    'no-param-reassign': ['off'],
+    'react/react-in-jsx-scope': ['off'],
     'react/jsx-uses-react': ['off'],
     'react/jsx-props-no-spreading': ['off'],
     'react/no-unescaped-entities': ['off'],
