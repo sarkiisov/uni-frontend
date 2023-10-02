@@ -1,9 +1,6 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { Test } from './components/Test/Test'
+import { routes } from './routes'
 
-const router = createBrowserRouter([{
-  path: '/',
-  element: <Test />
-}])
+const router = createBrowserRouter(routes)
 
 export const AppRouter = () => <RouterProvider router={router} />
