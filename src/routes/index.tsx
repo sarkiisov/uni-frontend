@@ -4,5 +4,8 @@ export const routes: RouteObject[] = [
   {
     path: '/',
     element: <span>Hello</span>
+  },
+  {
+    path: '/test'
   }
 ]
