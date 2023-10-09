@@ -1,5 +1,7 @@
-import { Outlet, RouteObject } from 'react-router-dom'
+import { RouteObject } from 'react-router-dom'
 import { quizRoutes } from '@/modules/quiz/routes'
+import { authRoutes } from '@/modules/auth/routes'
+import { AuthLayout } from '@/layouts'
 
 // TODO: fix layout
 export const routes: RouteObject[] = [
@@ -8,18 +10,10 @@ export const routes: RouteObject[] = [
     element: <span>Hello</span>
   },
   {
-    element: (
-      <div
-        style={{
-          width: '650px',
-          margin: '0 auto',
-          padding: '100px 0'
-        }}
-      >
-        <Outlet />
-      </div>),
-    children: [
-      ...quizRoutes
-    ]
+    children: quizRoutes
+  },
+  {
+    element: <AuthLayout />,
+    children: authRoutes
   }
 ]
