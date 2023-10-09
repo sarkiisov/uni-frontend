@@ -1,5 +1,5 @@
 import {
-  createTheme, rem, Paper
+  createTheme, TextInput, PasswordInput, Button, Paper, rem
 } from '@mantine/core'
 import { NotificationsProps } from '@mantine/notifications'
 import { generateColors } from '@mantine/colors-generator'
@@ -23,11 +23,25 @@ export const theme = createTheme({
         radius: 'md',
         p: 'xl'
       }
+    }),
+    TextInput: TextInput.extend({
+      defaultProps: {
+        size: 'md'
+      }
+    }),
+    PasswordInput: PasswordInput.extend({
+      defaultProps: {
+        size: 'md'
+      }
+    }),
+    Button: Button.extend({
+      defaultProps: {
+        size: 'md'
+      }
     })
   }
-
 })
 
 export const notificationProps: NotificationsProps = {
-
+  position: 'top-center'
 }
