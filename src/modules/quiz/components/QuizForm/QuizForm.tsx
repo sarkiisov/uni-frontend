@@ -1,7 +1,7 @@
 import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
-  Box, Button, List, Text, Paper
+  Box, Button, List, Text, Stack
 } from '@mantine/core'
 import { Virtuoso } from 'react-virtuoso'
 import { useMemo } from 'react'
@@ -9,10 +9,7 @@ import { QuizAnswerInput } from '../QuizAnswerInput'
 import { Question, QuestionType } from '../../types/question'
 import { QuizFormFields, QuizFormProps, QuizFormSchema } from './types'
 
-export const QuizForm = ({
-  data,
-  onSubmit
-}: QuizFormProps) => {
+export const QuizForm = ({ data, onSubmit }: QuizFormProps) => {
   const questions = useMemo(() => {
     const questions: {
       [key in QuestionType]: Question[];
@@ -31,10 +28,13 @@ export const QuizForm = ({
     return questions
   }, [data])
 
-  const defaultValues = useMemo(() => data?.reduce((acc, question) => {
-    acc[question.id] = undefined
-    return acc
-  }, {}), [data])
+  const defaultValues = useMemo(
+    () => data?.reduce((acc, question) => {
+      acc[question.id] = undefined
+      return acc
+    }, {}),
+    [data]
+  )
 
   const form = useForm<QuizFormFields>({
     mode: 'onChange',
@@ -47,10 +47,12 @@ export const QuizForm = ({
   const isSubmitDisabled = !isValid || isSubmitting
 
   return (
-    <Paper>
-      <FormProvider {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <Text my="md" c="theme-colorful-blue" fz="25">Описание вопросов одного вида</Text>
+    <FormProvider {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <Stack>
+          <Text c="theme-colorful-blue" fz="xl">
+            Описание вопросов одного вида
+          </Text>
           <Virtuoso
             useWindowScroll
             data={questions.TWO_TRACK}
@@ -67,11 +69,13 @@ export const QuizForm = ({
                     <List.Item>{question.text}</List.Item>
                     <List.Item>{question.text2}</List.Item>
                   </List>
-              )}
+                )}
               />
             )}
           />
-          <Text my="md" c="theme-colorful-blue" fz="25">Описание вопросов другого вида</Text>
+          <Text c="theme-colorful-blue" fz="lg">
+            Описание вопросов другого вида
+          </Text>
           <Virtuoso
             useWindowScroll
             data={questions.SINGLE}
@@ -87,16 +91,13 @@ export const QuizForm = ({
               />
             )}
           />
-          <Box mt="md">
-            <Button
-              type="submit"
-              disabled={isSubmitDisabled}
-            >
+          <Box>
+            <Button type="submit" disabled={isSubmitDisabled}>
               Сохранить
             </Button>
           </Box>
-        </form>
-      </FormProvider>
-    </Paper>
+        </Stack>
+      </form>
+    </FormProvider>
   )
 }
