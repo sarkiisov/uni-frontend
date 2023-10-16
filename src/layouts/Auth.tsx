@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom'
 
 export const AuthLayout = () => (
   <Center h="100vh">
-    <Card withBorder w="28rem" padding={0} radius="sm" shadow="xs">
+    <Card withBorder w="26rem" padding={0} radius="sm" shadow="xs">
       <Outlet />
     </Card>
   </Center>

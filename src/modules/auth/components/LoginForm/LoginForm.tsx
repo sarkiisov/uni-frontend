@@ -9,7 +9,7 @@ export const LoginForm = ({
 }: LoginFormProps) => {
   const form = useForm<LoginFormFields>({
     defaultValues: {
-      name: '',
+      login: '',
       password: ''
     },
     resolver: zodResolver(LoginFormSchema)
@@ -27,7 +27,7 @@ export const LoginForm = ({
     <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(submitHandler)}>
         <Stack gap="lg">
-          <TextInput name="name" label="Логин" autoComplete="username" withAsterisk />
+          <TextInput name="login" label="Логин" autoComplete="username" withAsterisk />
           <PasswordInput
             name="password"
             label="Пароль"

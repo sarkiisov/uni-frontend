@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 export const LoginFormSchema = z.object({
-  name: z.string().min(1, { message: 'Логин обязателен для заполнения' }),
+  login: z.string().min(1, { message: 'Логин обязателен для заполнения' }),
   password: z.string().min(1, { message: 'Пароль обязателен для заполнения' })
 })
 

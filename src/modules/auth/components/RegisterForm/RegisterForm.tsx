@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, Stack } from '@mantine/core'
-import { FormProvider, useForm } from 'react-hook-form'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import { RegisterFormFields, RegisterFormProps, RegisterFromSchema } from './types'
 import { PasswordInput, TextInput } from '@/libs/react-hook-form'
 
@@ -9,18 +9,26 @@ export const RegisterForm = ({
 }: RegisterFormProps) => {
   const form = useForm<RegisterFormFields>({
     defaultValues: {
-      name: '',
+      login: '',
       password: '',
       repeatPassword: ''
     },
     resolver: zodResolver(RegisterFromSchema)
   })
 
+  const handleSubmit: SubmitHandler<RegisterFormFields> = async (data) => {
+    try {
+      await onSubmit(data)
+    } catch {
+      form.reset(form.getValues())
+    }
+  }
+
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={form.handleSubmit(handleSubmit)}>
         <Stack gap="lg">
-          <TextInput name="name" label="Логин" autoComplete="username" withAsterisk />
+          <TextInput name="login" label="Логин" autoComplete="username" withAsterisk />
           <PasswordInput
             name="password"
             label="Пароль"

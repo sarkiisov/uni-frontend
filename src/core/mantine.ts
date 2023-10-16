@@ -1,5 +1,5 @@
 import {
-  createTheme, TextInput, PasswordInput, Button, Paper, rem
+  createTheme, TextInput, PasswordInput, Button, TabsList, Alert, Paper, rem
 } from '@mantine/core'
 import { NotificationsProps } from '@mantine/notifications'
 import { generateColors } from '@mantine/colors-generator'
@@ -37,6 +37,23 @@ export const theme = createTheme({
     Button: Button.extend({
       defaultProps: {
         size: 'md'
+      }
+    }),
+    TabsList: TabsList.extend({
+      defaultProps: {
+        fz: 'md'
+      }
+    }),
+    Alert: Alert.extend({
+      styles: {
+        message: {
+          color: 'var(--alert-color)'
+        },
+        root: {
+          borderWidth: '1px',
+          borderStyle: 'solid',
+          borderColor: 'var(--alert-color)'
+        }
       }
     })
   }

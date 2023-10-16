@@ -1,29 +1,34 @@
 import { Alert, Box } from '@mantine/core'
 import { useMutation } from '@tanstack/react-query'
-import { useAtom } from 'jotai/react'
 import { useState } from 'react'
 import { showNotification } from '@mantine/notifications'
+import { useNavigate } from 'react-router-dom'
 import { LoginForm } from '../components/LoginForm'
 import { AuthTabs } from '../components'
 import { login } from '../api/login'
 import { LoginFormFields } from '../components/LoginForm/types'
-import { tokenAtom } from '../store'
+import { setToken } from '../store'
+import { getErrorMessage } from '@/utils/error'
+import { LOGIN_ERRORS } from '../utils/consts'
 
 export const LoginPage = () => {
+  const navigate = useNavigate()
   const [error, setError] = useState<string | null>()
-  const [token, setToken] = useAtom(tokenAtom)
 
   const loginMutation = useMutation({
     mutationFn: login,
-    onError: (error: string) => {
-      setError(error)
+    onError: (error: Error) => {
+      setError(getErrorMessage(LOGIN_ERRORS, error))
     },
     onSuccess: ({ token }) => {
       showNotification({
         message: 'Добро пожаловать'
       })
+
       setError(null)
       setToken(token)
+
+      navigate('/info')
     }
   })
 
@@ -35,7 +40,7 @@ export const LoginPage = () => {
     <>
       <AuthTabs />
       <Box p="xl">
-        {error && <Alert variant="filled" color="red">{error}</Alert>}
+        {error && <Alert mb="md" color="red">{error}</Alert>}
         <LoginForm onSubmit={handleSubmit} />
       </Box>
     </>
