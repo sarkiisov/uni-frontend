@@ -1,7 +1,7 @@
 import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
-  Box, Button, List, Text
+  Box, Button, List, Text, Paper
 } from '@mantine/core'
 import { Virtuoso } from 'react-virtuoso'
 import { useMemo } from 'react'
@@ -47,56 +47,56 @@ export const QuizForm = ({
   const isSubmitDisabled = !isValid || isSubmitting
 
   return (
-    <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Text my="md">Описание вопросов одного вида</Text>
-        <Virtuoso
-          useWindowScroll
-          data={questions.TWO_TRACK}
-          itemContent={(index, question) => (
-            <QuizAnswerInput
-              py="sm"
-              key={question.id}
-              name={String(question.id)}
-              label={`Вопрос ${index + 1}`}
-              radioCount={5}
-              leftSection="1"
-              rightSection="2"
-              description={(
-                <List type="ordered">
-                  <List.Item>{question.text}</List.Item>
-                  <List.Item>{question.text2}</List.Item>
-                </List>
+    <Paper>
+      <FormProvider {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <Text my="md" c="theme-colorful-blue" fz="25">Описание вопросов одного вида</Text>
+          <Virtuoso
+            useWindowScroll
+            data={questions.TWO_TRACK}
+            itemContent={(index, question) => (
+              <QuizAnswerInput
+                key={question.id}
+                name={String(question.id)}
+                label={`Вопрос ${index + 1}`}
+                radioCount={5}
+                leftSection="1"
+                rightSection="2"
+                description={(
+                  <List type="ordered">
+                    <List.Item>{question.text}</List.Item>
+                    <List.Item>{question.text2}</List.Item>
+                  </List>
               )}
-            />
-          )}
-        />
-        <Text my="md">Описание випросо другого вида</Text>
-        <Virtuoso
-          useWindowScroll
-          data={questions.SINGLE}
-          itemContent={(index, question) => (
-            <QuizAnswerInput
-              py="sm"
-              key={question.id}
-              name={String(question.id)}
-              label={`Вопрос ${index + 1}`}
-              radioCount={4}
-              leftSection="Да"
-              rightSection="Нет"
-              description={<Text>{question.text}</Text>}
-            />
-          )}
-        />
-        <Box mt="md">
-          <Button
-            type="submit"
-            disabled={isSubmitDisabled}
-          >
-            Сохранить
-          </Button>
-        </Box>
-      </form>
-    </FormProvider>
+              />
+            )}
+          />
+          <Text my="md" c="theme-colorful-blue" fz="25">Описание вопросов другого вида</Text>
+          <Virtuoso
+            useWindowScroll
+            data={questions.SINGLE}
+            itemContent={(index, question) => (
+              <QuizAnswerInput
+                key={question.id}
+                name={String(question.id)}
+                label={`Вопрос ${index + 1}`}
+                radioCount={4}
+                leftSection="Да"
+                rightSection="Нет"
+                description={<Text>{question.text}</Text>}
+              />
+            )}
+          />
+          <Box mt="md">
+            <Button
+              type="submit"
+              disabled={isSubmitDisabled}
+            >
+              Сохранить
+            </Button>
+          </Box>
+        </form>
+      </FormProvider>
+    </Paper>
   )
 }
