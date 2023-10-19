@@ -1,42 +1,28 @@
 import {
-  createTheme, TextInput, PasswordInput, Button, TabsList, Alert, Paper, rem
+  createTheme, TabsList, Alert, Paper, rem
 } from '@mantine/core'
 import { NotificationsProps } from '@mantine/notifications'
 import { generateColors } from '@mantine/colors-generator'
 import '@fontsource/montserrat-alternates'
+import '@fontsource-variable/montserrat'
+import { DatesProviderSettings } from '@mantine/dates'
 
 export const theme = createTheme({
-  fontFamily: 'Montserrat Alternates',
+  fontFamily: 'Montserrat Variable',
   fontSizes: {
-    md: rem(17),
-    sm: rem(15)
+    sm: rem(13)
   },
-  primaryColor: 'theme-colorful-blue',
+  primaryColor: 'violet',
+  primaryShade: 4,
   colors: {
-    'theme-colorful-blue': generateColors('#0079da'),
-    'theme-colorful-violet': generateColors('#500e73')
+    blue: generateColors('#0079da'),
+    violet: generateColors('#500e73')
   },
   components: {
     Paper: Paper.extend({
       defaultProps: {
         shadow: 'sm',
-        radius: 'md',
-        p: 'xl'
-      }
-    }),
-    TextInput: TextInput.extend({
-      defaultProps: {
-        size: 'md'
-      }
-    }),
-    PasswordInput: PasswordInput.extend({
-      defaultProps: {
-        size: 'md'
-      }
-    }),
-    Button: Button.extend({
-      defaultProps: {
-        size: 'md'
+        radius: 'md'
       }
     }),
     TabsList: TabsList.extend({
@@ -61,4 +47,11 @@ export const theme = createTheme({
 
 export const notificationProps: NotificationsProps = {
   position: 'top-center'
+}
+
+export const datesSettingsProps: DatesProviderSettings = {
+  locale: 'ru',
+  firstDayOfWeek: 0,
+  weekendDays: [0],
+  timezone: 'UTC'
 }

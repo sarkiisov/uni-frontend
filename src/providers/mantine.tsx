@@ -1,10 +1,13 @@
 import { MantineProvider as MantineRootProvider } from '@mantine/core'
 import { Notifications } from '@mantine/notifications'
-import { notificationProps, theme } from '@/core'
+import { DatesProvider } from '@mantine/dates'
+import { datesSettingsProps, notificationProps, theme } from '@/core'
 
 export const MantineProvider = ({ children }: React.PropsWithChildren) => (
   <MantineRootProvider theme={theme}>
     <Notifications {...notificationProps} />
-    {children}
+    <DatesProvider settings={datesSettingsProps}>
+      {children}
+    </DatesProvider>
   </MantineRootProvider>
 )
