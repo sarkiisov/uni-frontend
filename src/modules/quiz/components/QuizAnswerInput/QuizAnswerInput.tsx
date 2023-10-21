@@ -23,17 +23,16 @@ export const QuizAnswerInput = ({
   return (
     <Radio.Group
       py="sm"
-      c="theme-colorful-violet"
       value={String(value)}
       onChange={(value) => onChange(Number(value))}
       label={label}
       error={error?.message}
       {...styleProps}
     >
-      <Box mb="xs" c="dark">
+      <Box mb="xs">
         {description}
       </Box>
-      <Group>
+      <Group c="violet">
         <Text>{leftSection}</Text>
         {Array.from(
           { length: radioCount },

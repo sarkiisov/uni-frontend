@@ -1,24 +1,63 @@
-import { Stepper } from '@mantine/core'
-import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { showNotification } from '@mantine/notifications'
+import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Box, Transition } from '@mantine/core'
 import { QuizForm } from '../components'
 import { questionsQuery } from '@/modules/quiz/queries'
 import { Question } from '../types/question'
+import { saveQuiz } from '../api/quiz'
+import { getErrorMessage } from '@/utils/error'
+import { QUIZ_ERRORS } from '../utils'
+import { QuizFormFields } from '../components/QuizForm/types'
+import { queryClient } from '@/core'
+import { userStatusQuery } from '@/modules/auth/queries'
 
 export const QuizPage = () => {
   const { data } = useQuery<Question[]>(questionsQuery())
 
-  const [activeStep, setActiveStep] = useState(0)
+  const navigate = useNavigate()
 
-  const handleSubmit = async () => {}
+  const saveQuizMutation = useMutation({
+    mutationFn: saveQuiz,
+    onError: (error: Error) => {
+      showNotification({
+        message: getErrorMessage(QUIZ_ERRORS, error)
+      })
+    },
+    onSuccess: () => {
+      showNotification({
+        message: 'Когнитивный тест сохранен'
+      })
+
+      queryClient.removeQueries({
+        queryKey: userStatusQuery().queryKey
+      })
+
+      navigate('/quiz')
+    }
+  })
+
+  const handleSubmit = async (data: QuizFormFields) => {
+    await saveQuizMutation.mutateAsync(data)
+  }
+
+  const [opened, setOpened] = useState(false)
+
+  useEffect(() => {
+    setOpened(true)
+  }, [])
 
   return (
-    <>
-      <Stepper active={activeStep} onStepClick={setActiveStep}>
-        <Stepper.Step label="Шаг 1" />
-        <Stepper.Step label="Шаг 2" />
-      </Stepper>
-      {activeStep === 0 && <QuizForm onSubmit={handleSubmit} data={data ?? []} />}
-    </>
+    <Transition mounted={opened} transition="fade" duration={400}>
+      {(transitionStyle) => (
+        <Box
+          mih={1000}
+          style={{ ...transitionStyle, zIndex: 1 }}
+        >
+          <QuizForm onSubmit={handleSubmit} data={data ?? []} />
+        </Box>
+      )}
+    </Transition>
   )
 }
