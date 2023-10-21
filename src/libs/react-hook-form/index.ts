@@ -1,2 +1,6 @@
 export * from './TextInput'
 export * from './PasswordInput'
+export * from './Textarea'
+export * from './DateInput'
+export * from './SegmentedControl'
+export * from './CheckboxGroup'
