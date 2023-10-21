@@ -2,6 +2,7 @@ import { Alert, Box, Stack } from '@mantine/core'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import { showNotification } from '@mantine/notifications'
+import { useNavigate } from 'react-router-dom'
 import { AuthTabs, RegisterForm } from '../components'
 import { RegisterFormFields } from '../components/RegisterForm/types'
 import { register } from '../api/register'
@@ -10,6 +11,7 @@ import { REGISTER_ERRORS } from '../utils/consts'
 import { getErrorMessage } from '@/utils/error'
 
 export const RegisterPage = () => {
+  const navigate = useNavigate()
   const [error, setError] = useState<string | null>()
 
   const registerMutation = useMutation({
@@ -21,8 +23,11 @@ export const RegisterPage = () => {
       showNotification({
         message: 'Добро пожаловать'
       })
+
       setError(null)
       setToken(token)
+
+      navigate('/info')
     }
   })
 
@@ -36,7 +41,7 @@ export const RegisterPage = () => {
   return (
     <Stack>
       <AuthTabs />
-      <Box p="xl" pt="md">
+      <Box p="lg" pt="md">
         {error && <Alert mb="md" variant="filled" color="red">{error}</Alert>}
         <RegisterForm onSubmit={handleSubmit} />
       </Box>

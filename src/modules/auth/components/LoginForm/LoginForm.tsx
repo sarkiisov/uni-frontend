@@ -34,8 +34,17 @@ export const LoginForm = ({
             autoComplete="current-password"
             withAsterisk
           />
-          <Button mt="md" type="submit" loading={form.formState.isSubmitting}>Войти</Button>
+          <Button
+            fullWidth
+            size="md"
+            fz="sm"
+            type="submit"
+            loading={form.formState.isSubmitting}
+          >
+            Войти
+          </Button>
         </Stack>
+
       </form>
     </FormProvider>
   )

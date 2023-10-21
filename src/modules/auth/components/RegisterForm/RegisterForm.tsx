@@ -41,7 +41,15 @@ export const RegisterForm = ({
             autoComplete="new-password"
             withAsterisk
           />
-          <Button mt="md" type="submit" loading={form.formState.isSubmitting}>Создать аккаунт</Button>
+          <Button
+            fullWidth
+            size="md"
+            fz="sm"
+            type="submit"
+            loading={form.formState.isSubmitting}
+          >
+            Создать аккаунт
+          </Button>
         </Stack>
       </form>
     </FormProvider>

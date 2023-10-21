@@ -10,7 +10,8 @@ import { DatesProviderSettings } from '@mantine/dates'
 export const theme = createTheme({
   fontFamily: 'Montserrat Variable',
   fontSizes: {
-    sm: rem(13)
+    sm: rem(13),
+    md: rem(14.4)
   },
   primaryColor: 'violet',
   primaryShade: 4,
@@ -32,9 +33,6 @@ export const theme = createTheme({
     }),
     Alert: Alert.extend({
       styles: {
-        message: {
-          color: 'var(--alert-color)'
-        },
         root: {
           borderWidth: '1px',
           borderStyle: 'solid',
@@ -51,7 +49,7 @@ export const notificationProps: NotificationsProps = {
 
 export const datesSettingsProps: DatesProviderSettings = {
   locale: 'ru',
-  firstDayOfWeek: 0,
-  weekendDays: [0],
+  firstDayOfWeek: 1,
+  weekendDays: [0, 6],
   timezone: 'UTC'
 }

@@ -1,4 +1,4 @@
-import { Alert, Box } from '@mantine/core'
+import { Alert, Box, Stack } from '@mantine/core'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import { showNotification } from '@mantine/notifications'
@@ -37,12 +37,12 @@ export const LoginPage = () => {
   }
 
   return (
-    <>
+    <Stack>
       <AuthTabs />
-      <Box p="xl">
+      <Box p="lg">
         {error && <Alert mb="md" color="red">{error}</Alert>}
         <LoginForm onSubmit={handleSubmit} />
       </Box>
-    </>
+    </Stack>
   )
 }

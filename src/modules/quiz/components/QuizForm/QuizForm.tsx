@@ -1,7 +1,7 @@
-import { FormProvider, useForm } from 'react-hook-form'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
-  Box, Button, List, Text, Stack
+  Button, List, Text, Stack, Group
 } from '@mantine/core'
 import { Virtuoso } from 'react-virtuoso'
 import { useMemo } from 'react'
@@ -15,6 +15,9 @@ export const QuizForm = ({ data, onSubmit }: QuizFormProps) => {
       [key in QuestionType]: Question[];
     } = {
       [QuestionType.SINGLE]: [],
+      [QuestionType.SINGLE1]: [],
+      [QuestionType.SINGLE2]: [],
+      [QuestionType.SIGNLE3]: [],
       [QuestionType.TWO_TRACK]: []
     }
 
@@ -22,7 +25,16 @@ export const QuizForm = ({ data, onSubmit }: QuizFormProps) => {
       const questionType: QuestionType = item.text2
         ? QuestionType.TWO_TRACK
         : QuestionType.SINGLE
-      questions[questionType].push(item)
+
+      if (questionType === QuestionType.SINGLE && item.id >= 70 && item.id <= 77) {
+        questions[QuestionType.SINGLE1].push(item)
+      } else if (questionType === QuestionType.SINGLE && item.id >= 78 && item.id <= 85) {
+        questions[QuestionType.SINGLE2].push(item)
+      } else if (questionType === QuestionType.SINGLE && item.id >= 86 && item.id <= 93) {
+        questions[QuestionType.SIGNLE3].push(item)
+      } else {
+        questions[questionType].push(item)
+      }
     })
 
     return questions
@@ -30,7 +42,7 @@ export const QuizForm = ({ data, onSubmit }: QuizFormProps) => {
 
   const defaultValues = useMemo(
     () => data?.reduce((acc, question) => {
-      acc[question.id] = undefined
+      acc[question.id] = 3
       return acc
     }, {}),
     [data]
@@ -42,16 +54,25 @@ export const QuizForm = ({ data, onSubmit }: QuizFormProps) => {
     defaultValues
   })
 
+  const submitHandler: SubmitHandler<QuizFormFields> = async (data) => {
+    try {
+      await onSubmit(data)
+    } catch {
+      form.reset(form.getValues())
+    }
+  }
+
   const { isValid, isSubmitting } = form.formState
 
-  const isSubmitDisabled = !isValid || isSubmitting
+  const isSubmitDisabled = !isValid
+  const isSubmitLoading = isSubmitting
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={form.handleSubmit(submitHandler)}>
         <Stack>
-          <Text c="theme-colorful-blue" fz="xl">
-            Описание вопросов одного вида
+          <Text c="blue" fz="lg">
+            Вопросы c выбором между двумя утверждениями
           </Text>
           <Virtuoso
             useWindowScroll
@@ -73,8 +94,8 @@ export const QuizForm = ({ data, onSubmit }: QuizFormProps) => {
               />
             )}
           />
-          <Text c="theme-colorful-blue" fz="lg">
-            Описание вопросов другого вида
+          <Text c="blue" fz="lg">
+            Вопросы с выбором близости одного утверждения
           </Text>
           <Virtuoso
             useWindowScroll
@@ -91,11 +112,65 @@ export const QuizForm = ({ data, onSubmit }: QuizFormProps) => {
               />
             )}
           />
-          <Box>
-            <Button type="submit" disabled={isSubmitDisabled}>
+          <Text c="blue" fz="lg">
+            Что может тебя удерживать в хорошем настроении?
+          </Text>
+          <Virtuoso
+            useWindowScroll
+            data={questions.SINGLE1}
+            itemContent={(index, question) => (
+              <QuizAnswerInput
+                key={question.id}
+                name={String(question.id)}
+                label={`Вопрос ${index + 1}`}
+                radioCount={4}
+                leftSection="Да"
+                rightSection="Нет"
+                description={<Text>{question.text}</Text>}
+              />
+            )}
+          />
+          <Text c="blue" fz="lg">
+            Что стоит за твоей ленью?
+          </Text>
+          <Virtuoso
+            useWindowScroll
+            data={questions.SINGLE2}
+            itemContent={(index, question) => (
+              <QuizAnswerInput
+                key={question.id}
+                name={String(question.id)}
+                label={`Вопрос ${index + 1}`}
+                radioCount={4}
+                leftSection="Да"
+                rightSection="Нет"
+                description={<Text>{question.text}</Text>}
+              />
+            )}
+          />
+          <Text c="blue" fz="lg">
+            В чём причина отсутствия настоящих друзей?
+          </Text>
+          <Virtuoso
+            useWindowScroll
+            data={questions.SINGLE3}
+            itemContent={(index, question) => (
+              <QuizAnswerInput
+                key={question.id}
+                name={String(question.id)}
+                label={`Вопрос ${index + 1}`}
+                radioCount={4}
+                leftSection="Да"
+                rightSection="Нет"
+                description={<Text>{question.text}</Text>}
+              />
+            )}
+          />
+          <Group justify="end">
+            <Button type="submit" disabled={isSubmitDisabled} loading={isSubmitLoading}>
               Сохранить
             </Button>
-          </Box>
+          </Group>
         </Stack>
       </form>
     </FormProvider>

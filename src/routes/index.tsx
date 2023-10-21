@@ -1,19 +1,23 @@
-import { RouteObject } from 'react-router-dom'
+import { RouteObject, redirect } from 'react-router-dom'
 import { quizRoutes } from '@/modules/quiz/routes'
 import { authRoutes } from '@/modules/auth/routes'
-import { AuthLayout } from '@/layouts'
+import { appLoader } from '@/modules/auth/loaders'
+import { Logout } from '@/components/Logout'
 
-// TODO: fix layout
 export const routes: RouteObject[] = [
   {
     path: '/',
-    element: <span>Hello</span>
+    loader: () => redirect('/login')
   },
   {
     children: quizRoutes
   },
   {
-    element: <AuthLayout />,
     children: authRoutes
+  },
+  {
+    path: '/app',
+    loader: appLoader,
+    element: <div><Logout />Тут будет приложение</div>
   }
 ]

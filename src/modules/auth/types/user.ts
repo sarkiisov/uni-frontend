@@ -12,3 +12,8 @@ export type UserStatus = {
   hasInfo: boolean
   hasTest: boolean
 }
+
+export type AuthUser = {
+  id: number
+  userName: string
+}

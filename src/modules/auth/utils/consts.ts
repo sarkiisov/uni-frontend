@@ -5,3 +5,5 @@ export const LOGIN_ERRORS = {
 export const REGISTER_ERRORS = {
   LOGIN_UNAVAILABLE: 'Логин уже занят другим пользователем'
 }
+
+export const USER_INFO_ERRORS = {}
