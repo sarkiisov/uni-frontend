@@ -6,6 +6,10 @@ export type User = {
   tgAccount: string
   birthday: string
   female: boolean
+  imageLinks: {
+    id: number
+    link: string
+  }[]
 }
 
 export type UserStatus = {

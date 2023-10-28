@@ -1,2 +1,2 @@
-export * from './appLoader'
+export * from './infoLoader'
 export * from './authLoader'
