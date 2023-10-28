@@ -4,9 +4,6 @@ import { refreshAuthToken } from '@/modules/auth/utils'
 
 export const axiosInstance = axios.create({
   baseURL: '/api',
-  headers: {
-    'Content-Type': 'application/json'
-  },
   timeout: 10 * 1000
 })
 
@@ -14,7 +11,7 @@ axiosInstance.interceptors.request.use(async (config) => {
   const token = getToken()
 
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`
+    config.headers.setAuthorization(`Bearer ${token}`)
   }
 
   return config
@@ -30,7 +27,7 @@ axiosInstance.interceptors.response.use(async (config) => config, async (error) 
 
         if (token) {
           const config = error.config!
-          config.headers.Authorization = `Bearer ${token}`
+          config.headers.setAuthorization(`Bearer ${token}`)
 
           return await axiosInstance.request(config)
         }

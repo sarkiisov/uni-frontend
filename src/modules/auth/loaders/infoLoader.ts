@@ -21,22 +21,3 @@ export const infoLoader = makeLoader(async () => {
     return redirect('/login')
   }
 })
-
-export const appLoader = makeLoader(async () => {
-  try {
-    const userStatus = (
-      queryClient.getQueryData(userStatusQuery().queryKey) ??
-      await queryClient.fetchQuery(userStatusQuery())) as UserStatus
-
-    if (!userStatus.hasTest) {
-      return redirect('/quiz')
-    }
-    if (!userStatus.hasInfo) {
-      return redirect('/info')
-    }
-
-    return null
-  } catch (error) {
-    return redirect('/login')
-  }
-})

@@ -3,7 +3,6 @@ import {
 } from '@mantine/core'
 import { NotificationsProps } from '@mantine/notifications'
 import { generateColors } from '@mantine/colors-generator'
-import '@fontsource/montserrat-alternates'
 import '@fontsource-variable/montserrat'
 import { DatesProviderSettings } from '@mantine/dates'
 
