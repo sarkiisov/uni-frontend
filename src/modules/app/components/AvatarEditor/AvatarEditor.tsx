@@ -4,7 +4,7 @@ import ReactAvatarEditor from 'react-avatar-editor'
 import { AvatarEditorProps } from './types'
 
 export const AvatarEditor = React.forwardRef(
-  ({ file }: AvatarEditorProps, ref: Ref<ReactAvatarEditor>) => {
+  ({ file, size }: AvatarEditorProps, ref: Ref<ReactAvatarEditor>) => {
     const [scale, setScale] = useState(1)
 
     return (
@@ -13,8 +13,8 @@ export const AvatarEditor = React.forwardRef(
           <ReactAvatarEditor
             ref={ref}
             image={file}
-            width={260}
-            height={260}
+            width={size ?? 260}
+            height={size ?? 260}
             scale={scale}
           />
         )}

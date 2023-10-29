@@ -6,10 +6,15 @@ export const appRoutes: RouteObject[] = [
   {
     path: '/app',
     loader: appLoader,
-    element: <UserPage />
-  },
-  {
-    path: '/app/settings',
-    element: <SettingsPage />
+    children: [
+      {
+        index: true,
+        element: <UserPage />
+      },
+      {
+        path: 'settings',
+        element: <SettingsPage />
+      }
+    ]
   }
 ]
