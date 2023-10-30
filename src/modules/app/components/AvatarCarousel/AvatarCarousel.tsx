@@ -1,9 +1,10 @@
-import { Image, Input } from '@mantine/core'
+import { Image, Paper } from '@mantine/core'
 import { Carousel, Embla, useAnimationOffsetEffect } from '@mantine/carousel'
 import {
   useCallback, useEffect, useState
 } from 'react'
 import { AvatarCarouselProps } from './types'
+import classes from './AvatarCarousel.module.css'
 
 export const AvatarCarousel = ({
   avatars,
@@ -37,10 +38,14 @@ export const AvatarCarousel = ({
   useAnimationOffsetEffect(embla, TRANSITION_DURATION)
 
   return (
-    <>
-      <Input type="hidden" data-autofocus />
+    <Paper
+      radius="sm"
+      shadow="none"
+      style={{ overflow: 'hidden' }}
+    >
       <Carousel
-        initialSlide={initialSlideIndex}
+        classNames={classes}
+        initialSlide={initialSlideIndex ?? 0}
         getEmblaApi={setEmbla}
         withIndicators
         pos="relative"
@@ -49,13 +54,13 @@ export const AvatarCarousel = ({
       >
         {avatars.map((avatar) => (
           <Carousel.Slide key={avatar.id}>
-            <Image src={avatar.src} />
+            <Image src={avatar.src} bg="gray" />
           </Carousel.Slide>
         ))}
       </Carousel>
       {(children)
         ? children(avatars[slideIndex], slideIndex)
         : null}
-    </>
+    </Paper>
   )
 }
