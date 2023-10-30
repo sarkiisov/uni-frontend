@@ -42,7 +42,6 @@ export const InfoForm = ({
     <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(submitHandler)}>
         <Stack>
-          {/* <TextInput value={} readOnly /> */}
           <TextInput
             name="name"
             label="Имя"
