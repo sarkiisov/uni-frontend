@@ -14,6 +14,7 @@ export const DateInput = ({
 
   return (
     <MantineDateInput
+      value={value}
       error={error?.message}
       readOnly={formState.isSubmitting || readOnly}
       {...fieldProps}

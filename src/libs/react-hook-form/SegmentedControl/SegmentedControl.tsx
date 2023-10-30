@@ -16,6 +16,7 @@ export const SegmentedControl = ({
     <Input.Wrapper label={label} error={error?.message}>
       <Box>
         <MantineSegmentedControl
+          value={value}
           readOnly={formState.isSubmitting || readOnly}
           {...fieldProps}
           {...props}
