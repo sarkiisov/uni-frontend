@@ -42,11 +42,14 @@ export const LikesPage = () => {
         ? (
           <SimpleGrid cols={3}>
             {data.map((connection) => {
+              const user = connection?.user2
+
               const predictedPercent = Math.round((connection?.probPredicted ?? 0) * 100)
 
               return (
                 <UserCard
-                  user={connection.user2}
+                  key={user.id}
+                  user={user}
                   nameProps={{ fz: 'lg' }}
                   actions={(
                     <Group mt="auto" pt="sm" justify="space-between">

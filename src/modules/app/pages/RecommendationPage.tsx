@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useMutation, useQuery } from '@tanstack/react-query'
 import {
-  ActionIcon, Badge, Box, Center, Group, Stack
+  ActionIcon, Badge, Box, Center, Group, Stack, Text
 } from '@mantine/core'
 import { X, Link, HeartHandshake } from 'lucide-react'
 import { showNotification } from '@mantine/notifications'
@@ -46,38 +46,44 @@ export const RecomendationPage = () => {
   return (
     <Center>
       <Stack w={400} gap="md">
-        <UserCard user={user} />
-        <Group m="0 auto" gap="lg">
-          <ActionIcon
-            onClick={() => handleButtonClick(false)}
-            color="gray"
-            size={48}
-            radius={24}
-            loading={likeConnectionMutation.isLoading}
-          >
-            <X size={32} />
-          </ActionIcon>
-          <Box>
-            <Badge
-              size="lg"
-              h={48}
-              fw={500}
-              fz="md"
-              leftSection={<Link size="1rem" />}
-            >
-              {`${predictedPercent}%`}
-            </Badge>
-          </Box>
-          <ActionIcon
-            onClick={() => handleButtonClick(true)}
-            size={48}
-            color="red"
-            radius={24}
-            loading={likeConnectionMutation.isLoading}
-          >
-            <HeartHandshake size={32} />
-          </ActionIcon>
-        </Group>
+        {data !== null
+          ? (
+            <>
+              <UserCard user={user} />
+              <Group m="0 auto" gap="lg">
+                <ActionIcon
+                  onClick={() => handleButtonClick(false)}
+                  color="gray"
+                  size={48}
+                  radius={24}
+                  loading={likeConnectionMutation.isLoading}
+                >
+                  <X size={32} />
+                </ActionIcon>
+                <Box>
+                  <Badge
+                    size="lg"
+                    h={48}
+                    fw={500}
+                    fz="md"
+                    leftSection={<Link size="1rem" />}
+                  >
+                    {`${predictedPercent}%`}
+                  </Badge>
+                </Box>
+                <ActionIcon
+                  onClick={() => handleButtonClick(true)}
+                  size={48}
+                  color="red"
+                  radius={24}
+                  loading={likeConnectionMutation.isLoading}
+                >
+                  <HeartHandshake size={32} />
+                </ActionIcon>
+              </Group>
+            </>
+          )
+          : <Text my="md" c="dimmed" ta="center">На данный момент вы просмотрели все рекомендации</Text>}
       </Stack>
     </Center>
   )

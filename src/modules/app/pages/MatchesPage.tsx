@@ -64,7 +64,7 @@ export const MatchesPage = () => {
   }
 
   const handleTelegramButtonClick = (tgAccount: string) => {
-    window.location.href = `https://t.me/${tgAccount}`
+    window.open(`https://t.me/${tgAccount}`, '_blank')?.focus()
   }
 
   return (
@@ -80,13 +80,14 @@ export const MatchesPage = () => {
         {data?.length
           ? (
             <SimpleGrid cols={3}>
-              {data.map((item) => {
-                const user = item?.user2
+              {data.map((connection) => {
+                const user = connection?.user2
 
-                const predictedPercent = Math.round((item?.probPredicted ?? 0) * 100)
+                const predictedPercent = Math.round((connection?.probPredicted ?? 0) * 100)
 
                 return (
                   <UserCard
+                    key={user.id}
                     user={user}
                     nameProps={{ fz: 'lg' }}
                     actions={(
@@ -105,15 +106,15 @@ export const MatchesPage = () => {
                         <Group>
                           <ActionIcon
                             onClick={() => handleMarkButtonClick({
-                              uniConnectionId: item.id,
-                              prob: Number(item.prob)
+                              uniConnectionId: connection.id,
+                              prob: Number(connection.prob)
                             })}
                             color="yellow"
                             size={36}
                             radius={18}
                             loading={
                               markConnectionMutation.isLoading &&
-                              markConnectionMutation.variables?.uniConnectionId === item.id
+                              markConnectionMutation.variables?.uniConnectionId === connection.id
                             }
                           >
                             <Star size={24} />

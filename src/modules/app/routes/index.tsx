@@ -3,7 +3,7 @@ import {
   LikesPage, MatchesPage, SettingsPage
 } from '../pages'
 import {
-  appLoader, likesLoader, matchesLoader, recommendationLoader
+  likesLoader, matchesLoader, recommendationLoader, settingsLoader
 } from '../loaders'
 import { RecomendationPage } from '../pages/RecommendationPage'
 import { AppLayout } from '@/layouts/App'
@@ -11,7 +11,6 @@ import { AppLayout } from '@/layouts/App'
 export const appRoutes: RouteObject[] = [
   {
     path: '/app',
-    loader: appLoader,
     element: <AppLayout />,
     children: [
       {
@@ -20,6 +19,7 @@ export const appRoutes: RouteObject[] = [
       },
       {
         path: 'settings',
+        loader: settingsLoader,
         element: <SettingsPage />
       },
       {
