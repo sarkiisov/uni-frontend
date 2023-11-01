@@ -4,6 +4,7 @@ import {
 } from '@mantine/core'
 import { AtSign } from 'lucide-react'
 import { zodResolver } from '@hookform/resolvers/zod'
+import dayjs from 'dayjs'
 import {
   Gender, InfoFormFields, InfoFormProps, InfoFormSchema
 } from './types'
@@ -42,7 +43,6 @@ export const InfoForm = ({
     <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(submitHandler)}>
         <Stack>
-          {/* <TextInput value={} readOnly /> */}
           <TextInput
             name="name"
             label="Имя"
@@ -60,7 +60,7 @@ export const InfoForm = ({
             withAsterisk
             valueFormat="DD.MM.YYYY"
             defaultLevel="decade"
-            maxDate={new Date()}
+            maxDate={dayjs().subtract(18, 'years').toDate()}
           />
           <Textarea
             name="description"

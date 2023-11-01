@@ -7,25 +7,19 @@ import { User, UserStatus } from '@/modules/auth/types'
 
 export const appLoader = makeLoader(async () => {
   try {
-    try {
-      const userStatus = (
-        queryClient.getQueryData(userStatusQuery().queryKey) ??
+    const userStatus = (
+      queryClient.getQueryData(userStatusQuery().queryKey) ??
         await queryClient.fetchQuery(userStatusQuery())) as UserStatus
 
-      if (!userStatus.hasTest) {
-        return redirect('/quiz')
-      }
-      if (!userStatus.hasInfo) {
-        return redirect('/info')
-      }
-
-      const user = queryClient.getQueryData(userQuery().queryKey) ??
-      await queryClient.fetchQuery(userQuery()) as User
-
-      return null
-    } catch (error) {
-      return Promise.reject(error)
+    if (!userStatus.hasTest) {
+      return redirect('/quiz')
     }
+    if (!userStatus.hasInfo) {
+      return redirect('/info')
+    }
+
+    return queryClient.getQueryData(userQuery().queryKey) ??
+      await queryClient.fetchQuery(userQuery()) as User
   } catch (error) {
     return redirect('/login')
   }

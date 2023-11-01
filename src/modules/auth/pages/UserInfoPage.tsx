@@ -1,14 +1,13 @@
 import { useMutation } from '@tanstack/react-query'
 import { showNotification } from '@mantine/notifications'
 import { useNavigate } from 'react-router-dom'
-import dayjs from 'dayjs'
 import { InfoForm } from '../components/InfoForm'
-import { Gender, InfoFormFields } from '../components/InfoForm/types'
-import { SaveUserInfoRequest, saveUserInfo } from '../api/userInfo'
+import { InfoFormFields } from '../components/InfoForm/types'
+import { saveUserInfo } from '../api/userInfo'
 import { queryClient } from '@/core'
 import { userStatusQuery } from '../queries'
 import { getErrorMessage } from '@/utils/error'
-import { USER_INFO_ERRORS } from '../utils'
+import { USER_INFO_ERRORS, prepareInfoRequest } from '../utils'
 
 export const UserInfoPage = () => {
   const navigate = useNavigate()
@@ -34,16 +33,7 @@ export const UserInfoPage = () => {
   })
 
   const handleSubmit = async (data: InfoFormFields) => {
-    const payload: SaveUserInfoRequest = {
-      name: data.name,
-      description: data.description,
-      tgAccount: data.tgAccount,
-      birthday: dayjs(data.birthday).format('YYYY-MM-DD'),
-      female: Boolean(data.gender === Gender.FEMALE),
-      showMale: Boolean(data.showGenders.includes(Gender.MALE)),
-      showFemale: Boolean(data.showGenders.includes(Gender.FEMALE))
-    }
-    await saveUserInfoMutation.mutateAsync(payload)
+    await saveUserInfoMutation.mutateAsync(prepareInfoRequest(data))
   }
 
   return (

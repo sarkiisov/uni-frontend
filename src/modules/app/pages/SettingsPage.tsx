@@ -1,11 +1,13 @@
 import {
-  Box, Button, FileButton, Group, Text, Modal
+  Box, Button, FileButton, Group, Text, Modal, Stack
 } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { useMemo, useRef } from 'react'
 import ReactAvatarEditor from 'react-avatar-editor'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { showNotification } from '@mantine/notifications'
+import { LogOut } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import { AvatarCarousel, AvatarEditor } from '../components'
 import { uploadFile } from '../api/uploadFile'
 import { attachUserFile } from '../api/attachUserFile'
@@ -17,8 +19,16 @@ import { userQuery } from '@/modules/auth/queries'
 import { User } from '@/modules/auth/types'
 import { queryClient } from '@/core'
 import { deleteUserFile } from '../api/deleteUserFile'
+import { InfoForm } from '@/modules/auth/components/InfoForm'
+import {
+  USER_INFO_ERRORS, logout, prepareInfoRequest, prepareInfoResponse
+} from '@/modules/auth/utils'
+import { InfoFormFields } from '@/modules/auth/components/InfoForm/types'
+import { saveUserInfo } from '@/modules/auth/api/userInfo'
 
 export const SettingsPage = () => {
+  const navigate = useNavigate()
+
   const uploadFileMutation = useMutation({
     mutationFn: uploadFile,
     onError: (error: Error) => {
@@ -59,6 +69,24 @@ export const SettingsPage = () => {
       })
 
       queryClient.invalidateQueries({
+        queryKey: userQuery().queryKey
+      })
+    }
+  })
+
+  const saveUserInfoMutation = useMutation({
+    mutationFn: saveUserInfo,
+    onError: (error: Error) => {
+      showNotification({
+        message: getErrorMessage(USER_INFO_ERRORS, error)
+      })
+    },
+    onSuccess: () => {
+      showNotification({
+        message: 'Персональные данные сохранены'
+      })
+
+      queryClient.removeQueries({
         queryKey: userQuery().queryKey
       })
     }
@@ -120,18 +148,36 @@ export const SettingsPage = () => {
     await deleteUserFileMutation.mutateAsync({ id })
   }
 
+  const handleInfoSubmit = async (data: InfoFormFields) => {
+    await saveUserInfoMutation.mutateAsync(prepareInfoRequest(data))
+  }
+
+  const handleLogoutCLick = () => {
+    logout()
+
+    navigate('/login')
+  }
+
   return (
     <Box>
       <Modal opened={openedAvatarEditor} onClose={closeAvatarEditor} title="Редактирование изображения">
         <AvatarEditor file={rawAvatar.current} ref={avatar} />
         <Group justify="end" mt="xl">
-          <Button onClick={handleSaveClick}>Сохранить</Button>
+          <Button
+            onClick={handleSaveClick}
+            loading={
+              uploadFileMutation.isLoading ||
+              attachUserFileMutation.isLoading
+            }
+          >
+            Сохранить
+          </Button>
         </Group>
       </Modal>
-      <Modal opened={openedAvatarDeletion} onClose={closeAvatarDeletion} title="Удаление изображения">
+      <Modal opened={openedAvatarDeletion} onClose={closeAvatarDeletion} title="Мои изображения">
         {avatars.length
           ? (
-            <AvatarCarousel avatars={avatars} w={260} m="0 auto">
+            <AvatarCarousel avatars={avatars} w={260} h={260} m="0 auto">
               {(avatar, index) => (
                 <Group justify="space-between" mt="xl">
                   <Text>{index + 1} из {avatars.length}</Text>
@@ -147,17 +193,27 @@ export const SettingsPage = () => {
           )
           : <Text ta="center" my="lg">Все изображения удалены</Text>}
       </Modal>
-      <Group>
-        <FileButton resetRef={resetRawAvatarRef} onChange={handleRawAvatarUpload} accept="image/png,image/jpeg">
-          {(props) => <Button {...props}>Загрузить изображение</Button>}
-        </FileButton>
-        <Button
-          onClick={openAvatarDeletion}
-          disabled={disabledAvatarDeletion}
-        >
-          Удалить изображение
-        </Button>
-      </Group>
+      <Stack>
+        <Text c="blue" fz="lg">Аватар</Text>
+        <Group justify="flex-end">
+          <Button
+            variant="light"
+            onClick={openAvatarDeletion}
+            disabled={disabledAvatarDeletion}
+          >
+            Мои изображения
+          </Button>
+          <FileButton resetRef={resetRawAvatarRef} onChange={handleRawAvatarUpload} accept="image/png,image/jpeg">
+            {(props) => <Button {...props}>Загрузить изображение</Button>}
+          </FileButton>
+        </Group>
+        <Text c="blue" fz="lg">Персональные данные</Text>
+        <InfoForm defaultValues={prepareInfoResponse(data)} onSubmit={handleInfoSubmit} />
+        <Text c="blue" fz="lg">Прочее</Text>
+        <Group justify="flex-end">
+          <Button onClick={handleLogoutCLick} leftSection={<LogOut size="1rem" />}>Выход</Button>
+        </Group>
+      </Stack>
     </Box>
   )
 }

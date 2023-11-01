@@ -40,7 +40,7 @@ export const LoginPage = () => {
     <Stack>
       <AuthTabs />
       <Box p="lg">
-        {error && <Alert mb="md" color="red">{error}</Alert>}
+        {error && <Alert mb="md" variant="filled" color="red">{error}</Alert>}
         <LoginForm onSubmit={handleSubmit} />
       </Box>
     </Stack>

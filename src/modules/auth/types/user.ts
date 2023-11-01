@@ -1,4 +1,5 @@
 export type User = {
+  id: number
   name: string
   showMale: boolean
   showFemale: boolean
