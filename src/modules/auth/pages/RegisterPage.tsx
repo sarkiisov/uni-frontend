@@ -8,7 +8,7 @@ import { RegisterFormFields } from '../components/RegisterForm/types'
 import { register } from '../api/register'
 import { setToken } from '../store'
 import { REGISTER_ERRORS } from '../utils/consts'
-import { getErrorMessage } from '@/utils/error'
+import { getErrorMessage } from '@/utils'
 
 export const RegisterPage = () => {
   const navigate = useNavigate()

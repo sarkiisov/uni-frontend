@@ -12,7 +12,7 @@ import { Connection } from '../types'
 import { UserCard } from '../components'
 import { likeConnection } from '../api/likeConnection'
 import { queryClient } from '@/core'
-import { getErrorMessage } from '@/utils/error'
+import { getErrorMessage } from '@/utils'
 import { LIKE_CONNECTION_ERRORS } from '../utils'
 
 export const LikesPage = () => {

@@ -1,16 +1,18 @@
+import { DefaultQueryKey } from '@/core'
+
 export const refreshQuery = () => ({
-  queryKey: ['auth/refresh'],
+  queryKey: ['auth/refresh'] as DefaultQueryKey,
   retry: 0
 })
 
 export const authUserQuery = () => ({
-  queryKey: ['auth/user']
+  queryKey: ['auth/user'] as DefaultQueryKey
 })
 
 export const userQuery = () => ({
-  queryKey: ['user']
+  queryKey: ['user'] as DefaultQueryKey
 })
 
 export const userStatusQuery = () => ({
-  queryKey: ['user/status']
+  queryKey: ['user/status'] as DefaultQueryKey
 })

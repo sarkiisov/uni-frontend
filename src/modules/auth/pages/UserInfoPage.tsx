@@ -6,7 +6,7 @@ import { InfoFormFields } from '../components/InfoForm/types'
 import { saveUserInfo } from '../api/userInfo'
 import { queryClient } from '@/core'
 import { userStatusQuery } from '../queries'
-import { getErrorMessage } from '@/utils/error'
+import { getErrorMessage } from '@/utils'
 import { USER_INFO_ERRORS, prepareInfoRequest } from '../utils'
 
 export const UserInfoPage = () => {
