@@ -9,7 +9,7 @@ import { recommendationQuery } from '../queries'
 import { Connection } from '../types'
 import { UserCard } from '../components'
 import { likeConnection } from '../api/likeConnection'
-import { getErrorMessage } from '@/utils/error'
+import { getErrorMessage } from '@/utils'
 import { LIKE_CONNECTION_ERRORS } from '../utils'
 import { queryClient } from '@/core'
 
@@ -46,7 +46,7 @@ export const RecomendationPage = () => {
   return (
     <Center>
       <Stack w={400} gap="md">
-        {data !== null
+        {data
           ? (
             <>
               <UserCard user={user} />

@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom'
 import { AvatarCarousel, AvatarEditor } from '../components'
 import { uploadFile } from '../api/uploadFile'
 import { attachUserFile } from '../api/attachUserFile'
-import { getErrorMessage } from '@/utils/error'
+import { getErrorMessage } from '@/utils'
 import {
   ATTACH_USER_FILES_ERRORS, DELETE_USER_FILES_ERRORS, UPLOAD_FILE_ERRORS, dataURItoBlob, hashCode
 } from '../utils'

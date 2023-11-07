@@ -8,7 +8,7 @@ import { AuthTabs } from '../components'
 import { login } from '../api/login'
 import { LoginFormFields } from '../components/LoginForm/types'
 import { setToken } from '../store'
-import { getErrorMessage } from '@/utils/error'
+import { getErrorMessage } from '@/utils'
 import { LOGIN_ERRORS } from '../utils/consts'
 
 export const LoginPage = () => {

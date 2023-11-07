@@ -60,6 +60,7 @@ export const InfoForm = ({
             withAsterisk
             valueFormat="DD.MM.YYYY"
             defaultLevel="decade"
+            minDate={dayjs('1900-01-01').toDate()}
             maxDate={dayjs().subtract(18, 'years').toDate()}
           />
           <Textarea
