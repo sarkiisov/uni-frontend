@@ -7,6 +7,8 @@ import {
   HeartHandshake, Link, X
 } from 'lucide-react'
 import { showNotification } from '@mantine/notifications'
+import { useState } from 'react'
+import Confetti from 'react-confetti/dist/types/Confetti'
 import { likesQuery } from '../queries'
 import { Connection } from '../types'
 import { UserCard } from '../components'
@@ -14,14 +16,27 @@ import { likeConnection } from '../api/likeConnection'
 import { queryClient } from '@/core'
 import { getErrorMessage } from '@/utils'
 import { LIKE_CONNECTION_ERRORS } from '../utils'
+import { SizedConfetti } from '@/components'
 
 export const LikesPage = () => {
+  const [showConfetti, setShowConfetti] = useState(false)
+
+  const handleConfettiComplate = (confetti?: Confetti) => {
+    setShowConfetti(false)
+
+    confetti?.reset()
+  }
+
   const likeConnectionMutation = useMutation({
     mutationFn: likeConnection,
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
         queryKey: likesQuery().queryKey
       })
+
+      if (variables.like) {
+        setShowConfetti(true)
+      }
     },
     onError: (error: Error) => {
       showNotification({
@@ -38,6 +53,13 @@ export const LikesPage = () => {
 
   return (
     <Stack>
+      <SizedConfetti
+        style={{ pointerEvents: 'none' }}
+        numberOfPieces={showConfetti ? 200 : 0}
+        gravity={0.2}
+        recycle={false}
+        onConfettiComplete={handleConfettiComplate}
+      />
       {data?.length
         ? (
           <SimpleGrid cols={3}>
