@@ -5,7 +5,8 @@ import { requireProtected } from './requireProtected'
 
 export const likesLoader = makeLoader(
   async () => {
-    requireProtected()
+    await requireProtected()
+
     return queryClient.fetchQuery(likesQuery())
   }
 )

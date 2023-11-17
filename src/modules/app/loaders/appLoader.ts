@@ -1,26 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { redirect } from 'react-router-dom'
 import { makeLoader } from 'react-router-typesafe'
 import { queryClient } from '@/core'
-import { userQuery, userStatusQuery } from '@/modules/auth/queries'
-import { User, UserStatus } from '@/modules/auth/types'
+import { userQuery } from '@/modules/auth/queries'
+import { User } from '@/modules/auth/types'
+import { requireProtected } from './requireProtected'
 
 export const appLoader = makeLoader(async () => {
-  try {
-    const userStatus = (
-      queryClient.getQueryData(userStatusQuery().queryKey) ??
-        await queryClient.fetchQuery(userStatusQuery())) as UserStatus
+  await requireProtected()
 
-    if (!userStatus.hasTest) {
-      return redirect('/quiz')
-    }
-    if (!userStatus.hasInfo) {
-      return redirect('/info')
-    }
-
-    return queryClient.getQueryData(userQuery().queryKey) ??
+  return queryClient.getQueryData(userQuery().queryKey) ??
       await queryClient.fetchQuery(userQuery()) as User
-  } catch (error) {
-    return redirect('/login')
-  }
 })
