@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, Stack } from '@mantine/core'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
-import { RegisterFormFields, RegisterFormProps, RegisterFromSchema } from './types'
+import { RegisterFormFields, RegisterFormProps, RegisterFormSchema } from './types'
 import { PasswordInput, TextInput } from '@/libs/react-hook-form'
 
 export const RegisterForm = ({
@@ -13,7 +13,7 @@ export const RegisterForm = ({
       password: '',
       repeatPassword: ''
     },
-    resolver: zodResolver(RegisterFromSchema)
+    resolver: zodResolver(RegisterFormSchema)
   })
 
   const handleSubmit: SubmitHandler<RegisterFormFields> = async (data) => {
