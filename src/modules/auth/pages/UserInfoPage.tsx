@@ -1,12 +1,11 @@
 import { useMutation } from '@tanstack/react-query'
-import { showNotification } from '@mantine/notifications'
 import { useNavigate } from 'react-router-dom'
 import { InfoForm } from '../components/InfoForm'
 import { InfoFormFields } from '../components/InfoForm/types'
 import { saveUserInfo } from '../api/userInfo'
 import { queryClient } from '@/core'
 import { userStatusQuery } from '../queries'
-import { getErrorMessage } from '@/utils'
+import { showNotification, getErrorMessage } from '@/utils'
 import { USER_INFO_ERRORS, prepareInfoRequest } from '../utils'
 
 export const UserInfoPage = () => {
@@ -16,12 +15,14 @@ export const UserInfoPage = () => {
     mutationFn: saveUserInfo,
     onError: (error: Error) => {
       showNotification({
-        message: getErrorMessage(USER_INFO_ERRORS, error)
+        message: getErrorMessage(error, USER_INFO_ERRORS),
+        type: 'ERROR'
       })
     },
     onSuccess: () => {
       showNotification({
-        message: 'Персональные данные сохранены'
+        message: 'Персональные данные сохранены',
+        type: 'SUCCESS'
       })
 
       queryClient.removeQueries({

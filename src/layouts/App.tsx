@@ -1,5 +1,5 @@
 import {
-  HeartHandshake, Search, Settings, SmilePlus
+  HeartHandshake, Search, SmilePlus, User2
 } from 'lucide-react'
 import { Outlet } from 'react-router-dom'
 import {
@@ -26,7 +26,7 @@ const menuItems: HorizontalMenuItem[] = [
     to: '/app/matches'
   },
   {
-    icon: Settings,
+    icon: User2,
     label: 'Настройки',
     to: '/app/settings'
   }

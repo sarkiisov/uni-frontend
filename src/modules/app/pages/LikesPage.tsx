@@ -6,7 +6,6 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import {
   HeartHandshake, Link, X
 } from 'lucide-react'
-import { showNotification } from '@mantine/notifications'
 import { useState } from 'react'
 import Confetti from 'react-confetti/dist/types/Confetti'
 import { likesQuery } from '../queries'
@@ -14,7 +13,7 @@ import { Connection } from '../types'
 import { UserCard } from '../components'
 import { likeConnection } from '../api/likeConnection'
 import { queryClient } from '@/core'
-import { getErrorMessage } from '@/utils'
+import { showNotification, getErrorMessage } from '@/utils'
 import { LIKE_CONNECTION_ERRORS } from '../utils'
 import { SizedConfetti } from '@/components'
 
@@ -40,7 +39,8 @@ export const LikesPage = () => {
     },
     onError: (error: Error) => {
       showNotification({
-        message: getErrorMessage(LIKE_CONNECTION_ERRORS, error)
+        message: getErrorMessage(error, LIKE_CONNECTION_ERRORS),
+        type: 'ERROR'
       })
     }
   })

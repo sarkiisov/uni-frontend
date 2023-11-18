@@ -1,18 +1,17 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useMutation, useQuery } from '@tanstack/react-query'
 import {
-  ActionIcon, Badge, Box, Group, Modal, SimpleGrid, Stack, Text
+  ActionIcon, Badge, Box, Group, Modal, SimpleGrid, Stack, Text, useMantineTheme
 } from '@mantine/core'
 import {
   Link, MessageCircle, Star
 } from 'lucide-react'
-import { showNotification } from '@mantine/notifications'
 import { useRef } from 'react'
 import { useDisclosure } from '@mantine/hooks'
+import { showNotification, getErrorMessage } from '@/utils'
 import { matchesQuery } from '../queries'
 import { Connection } from '../types'
 import { MarkConnection, UserCard } from '../components'
-import { getErrorMessage } from '@/utils'
 import { MARK_CONNECTION_ERRORS } from '../utils'
 import { queryClient } from '@/core'
 import { markConnection } from '../api/markConnection'
@@ -26,7 +25,8 @@ export const MatchesPage = () => {
     mutationFn: markConnection,
     onSuccess: () => {
       showNotification({
-        message: 'Оценка сохранена'
+        message: 'Оценка сохранена',
+        type: 'SUCCESS'
       })
 
       queryClient.invalidateQueries({
@@ -35,7 +35,8 @@ export const MatchesPage = () => {
     },
     onError: (error: Error) => {
       showNotification({
-        message: getErrorMessage(MARK_CONNECTION_ERRORS, error)
+        message: getErrorMessage(error, MARK_CONNECTION_ERRORS),
+        type: 'ERROR'
       })
     }
   })
@@ -62,6 +63,8 @@ export const MatchesPage = () => {
 
     close()
   }
+
+  const theme = useMantineTheme()
 
   const handleTelegramButtonClick = (tgAccount: string) => {
     window.open(`https://t.me/${tgAccount}`, '_blank')?.focus()
@@ -109,6 +112,7 @@ export const MatchesPage = () => {
                               uniConnectionId: connection.id,
                               prob: Number(connection.prob)
                             })}
+                            disabled={!connection.markable}
                             color="yellow"
                             size={36}
                             radius={18}
@@ -117,7 +121,10 @@ export const MatchesPage = () => {
                               markConnectionMutation.variables?.uniConnectionId === connection.id
                             }
                           >
-                            <Star size={24} />
+                            <Star
+                              fill={typeof connection.prob === 'number' ? theme.white : 'none'}
+                              size={24}
+                            />
                           </ActionIcon>
                           <ActionIcon
                             disabled={!user.tgAccount}

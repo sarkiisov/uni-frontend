@@ -1,14 +1,13 @@
 import { Alert, Box, Stack } from '@mantine/core'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
-import { showNotification } from '@mantine/notifications'
 import { useNavigate } from 'react-router-dom'
 import { LoginForm } from '../components/LoginForm'
 import { AuthTabs } from '../components'
 import { login } from '../api/login'
 import { LoginFormFields } from '../components/LoginForm/types'
 import { setToken } from '../store'
-import { getErrorMessage } from '@/utils'
+import { showNotification, getErrorMessage } from '@/utils'
 import { LOGIN_ERRORS } from '../utils/consts'
 
 export const LoginPage = () => {
@@ -18,11 +17,12 @@ export const LoginPage = () => {
   const loginMutation = useMutation({
     mutationFn: login,
     onError: (error: Error) => {
-      setError(getErrorMessage(LOGIN_ERRORS, error))
+      setError(getErrorMessage(error, LOGIN_ERRORS))
     },
     onSuccess: ({ token }) => {
       showNotification({
-        message: 'Добро пожаловать'
+        message: 'Добро пожаловать',
+        type: 'SUCCESS'
       })
 
       setError(null)

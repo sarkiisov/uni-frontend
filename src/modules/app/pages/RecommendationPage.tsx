@@ -4,12 +4,11 @@ import {
   ActionIcon, Badge, Box, Center, Group, Stack, Text
 } from '@mantine/core'
 import { X, Link, HeartHandshake } from 'lucide-react'
-import { showNotification } from '@mantine/notifications'
 import { recommendationQuery } from '../queries'
 import { Connection } from '../types'
 import { UserCard } from '../components'
 import { likeConnection } from '../api/likeConnection'
-import { getErrorMessage } from '@/utils'
+import { showNotification, getErrorMessage } from '@/utils'
 import { LIKE_CONNECTION_ERRORS } from '../utils'
 import { queryClient } from '@/core'
 
@@ -23,7 +22,8 @@ export const RecomendationPage = () => {
     },
     onError: (error: Error) => {
       showNotification({
-        message: getErrorMessage(LIKE_CONNECTION_ERRORS, error)
+        message: getErrorMessage(error, LIKE_CONNECTION_ERRORS),
+        type: 'ERROR'
       })
     }
   })
