@@ -20,7 +20,7 @@ import { SizedConfetti } from '@/components'
 export const LikesPage = () => {
   const [showConfetti, setShowConfetti] = useState(false)
 
-  const handleConfettiComplate = (confetti?: Confetti) => {
+  const handleConfettiComplete = (confetti?: Confetti) => {
     setShowConfetti(false)
 
     confetti?.reset()
@@ -58,7 +58,7 @@ export const LikesPage = () => {
         numberOfPieces={showConfetti ? 200 : 0}
         gravity={0.2}
         recycle={false}
-        onConfettiComplete={handleConfettiComplate}
+        onConfettiComplete={handleConfettiComplete}
       />
       {data?.length
         ? (
