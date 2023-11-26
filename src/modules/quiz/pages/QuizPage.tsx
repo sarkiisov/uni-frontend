@@ -1,5 +1,4 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { showNotification } from '@mantine/notifications'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { Box, Transition } from '@mantine/core'
@@ -7,7 +6,7 @@ import { QuizForm } from '../components'
 import { questionsQuery } from '@/modules/quiz/queries'
 import { Question } from '../types/question'
 import { saveQuiz } from '../api/quiz'
-import { getErrorMessage } from '@/utils'
+import { showNotification, getErrorMessage } from '@/utils'
 import { QUIZ_ERRORS } from '../utils'
 import { QuizFormFields } from '../components/QuizForm/types'
 import { queryClient } from '@/core'
@@ -22,12 +21,14 @@ export const QuizPage = () => {
     mutationFn: saveQuiz,
     onError: (error: Error) => {
       showNotification({
-        message: getErrorMessage(QUIZ_ERRORS, error)
+        message: getErrorMessage(error, QUIZ_ERRORS),
+        type: 'ERROR'
       })
     },
     onSuccess: () => {
       showNotification({
-        message: 'Когнитивный тест сохранен'
+        message: 'Когнитивный тест сохранен',
+        type: 'SUCCESS'
       })
 
       queryClient.removeQueries({

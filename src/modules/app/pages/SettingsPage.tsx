@@ -5,13 +5,12 @@ import { useDisclosure } from '@mantine/hooks'
 import { useMemo, useRef } from 'react'
 import ReactAvatarEditor from 'react-avatar-editor'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { showNotification } from '@mantine/notifications'
-import { LogOut } from 'lucide-react'
+import { LogOut, Image, UploadCloud } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { showNotification, getErrorMessage } from '@/utils'
 import { AvatarCarousel, AvatarEditor } from '../components'
 import { uploadFile } from '../api/uploadFile'
 import { attachUserFile } from '../api/attachUserFile'
-import { getErrorMessage } from '@/utils'
 import {
   ATTACH_USER_FILES_ERRORS, DELETE_USER_FILES_ERRORS, UPLOAD_FILE_ERRORS, dataURItoBlob, hashCode
 } from '../utils'
@@ -33,7 +32,8 @@ export const SettingsPage = () => {
     mutationFn: uploadFile,
     onError: (error: Error) => {
       showNotification({
-        message: getErrorMessage(UPLOAD_FILE_ERRORS, error)
+        message: getErrorMessage(error, UPLOAD_FILE_ERRORS),
+        type: 'ERROR'
       })
     }
   })
@@ -42,7 +42,8 @@ export const SettingsPage = () => {
     mutationFn: attachUserFile,
     onSuccess: () => {
       showNotification({
-        message: 'Изображение профиля обновлено'
+        message: 'Изображение профиля обновлено',
+        type: 'SUCCESS'
       })
 
       queryClient.invalidateQueries({
@@ -51,7 +52,8 @@ export const SettingsPage = () => {
     },
     onError: (error: Error) => {
       showNotification({
-        message: getErrorMessage(ATTACH_USER_FILES_ERRORS, error)
+        message: getErrorMessage(error, ATTACH_USER_FILES_ERRORS),
+        type: 'ERROR'
       })
     }
   })
@@ -60,12 +62,14 @@ export const SettingsPage = () => {
     mutationFn: deleteUserFile,
     onError: (error: Error) => {
       showNotification({
-        message: getErrorMessage(DELETE_USER_FILES_ERRORS, error)
+        message: getErrorMessage(error, DELETE_USER_FILES_ERRORS),
+        type: 'ERROR'
       })
     },
     onSuccess: () => {
       showNotification({
-        message: 'Изображение профиля удалено'
+        message: 'Изображение профиля удалено',
+        type: 'SUCCESS'
       })
 
       queryClient.invalidateQueries({
@@ -78,12 +82,14 @@ export const SettingsPage = () => {
     mutationFn: saveUserInfo,
     onError: (error: Error) => {
       showNotification({
-        message: getErrorMessage(USER_INFO_ERRORS, error)
+        message: getErrorMessage(error, USER_INFO_ERRORS),
+        type: 'ERROR'
       })
     },
     onSuccess: () => {
       showNotification({
-        message: 'Персональные данные сохранены'
+        message: 'Персональные данные сохранены',
+        type: 'SUCCESS'
       })
 
       queryClient.removeQueries({
@@ -197,6 +203,7 @@ export const SettingsPage = () => {
         <Text c="blue" fz="lg">Аватар</Text>
         <Group justify="flex-end">
           <Button
+            leftSection={<Image size="1rem" />}
             variant="light"
             onClick={openAvatarDeletion}
             disabled={disabledAvatarDeletion}
@@ -204,7 +211,14 @@ export const SettingsPage = () => {
             Мои изображения
           </Button>
           <FileButton resetRef={resetRawAvatarRef} onChange={handleRawAvatarUpload} accept="image/png,image/jpeg">
-            {(props) => <Button {...props}>Загрузить изображение</Button>}
+            {(props) => (
+              <Button
+                leftSection={<UploadCloud size="1rem" />}
+                {...props}
+              >
+                Загрузить
+              </Button>
+            )}
           </FileButton>
         </Group>
         <Text c="blue" fz="lg">Персональные данные</Text>

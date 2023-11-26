@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const RegisterFromSchema = z.object({
+export const RegisterFormSchema = z.object({
   login: z
     .string()
     .min(3, { message: 'Логин должен быть больше 3 символов' })
@@ -12,7 +12,7 @@ export const RegisterFromSchema = z.object({
   message: 'Пароли должны совпадать'
 })
 
-export type RegisterFormFields = z.infer<typeof RegisterFromSchema>
+export type RegisterFormFields = z.infer<typeof RegisterFormSchema>
 
 export type RegisterFormProps = {
   onSubmit: (data: RegisterFormFields) => Promise<void>

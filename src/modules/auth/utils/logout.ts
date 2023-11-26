@@ -1,6 +1,6 @@
 import { queryClient } from '@/core'
 import { setToken, setUser } from '../store'
-import { userQuery, userStatusQuery } from '../queries'
+import { authUserQuery, userQuery, userStatusQuery } from '../queries'
 
 export const logout = () => {
   setUser(undefined)
@@ -11,5 +11,8 @@ export const logout = () => {
   })
   queryClient.removeQueries({
     queryKey: userStatusQuery().queryKey
+  })
+  queryClient.removeQueries({
+    queryKey: authUserQuery().queryKey
   })
 }
