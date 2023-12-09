@@ -54,10 +54,7 @@ export const LikesPage = () => {
   return (
     <Stack>
       <SizedConfetti
-        style={{ pointerEvents: 'none' }}
         numberOfPieces={showConfetti ? 200 : 0}
-        gravity={0.2}
-        recycle={false}
         onConfettiComplete={handleConfettiComplete}
       />
       {data?.length

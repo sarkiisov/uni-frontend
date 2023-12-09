@@ -9,6 +9,9 @@ export const SizedConfetti = forwardRef<HTMLCanvasElement, Props>((props: Props,
     <ReactConfetti
       width={width}
       height={height - 20}
+      style={{ pointerEvents: 'none' }}
+      gravity={0.2}
+      recycle={false}
       {...props}
       ref={ref}
     />
