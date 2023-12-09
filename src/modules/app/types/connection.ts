@@ -5,5 +5,6 @@ export type Connection = {
   prob: number | null
   probPredicted: number
   user2: User
+  match?: boolean
   markable?: boolean
 }
